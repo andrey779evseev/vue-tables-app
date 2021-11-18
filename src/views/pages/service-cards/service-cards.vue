@@ -7,9 +7,8 @@
     <cards-big-table
         v-model:active-page="activePage"
         :get-src="getSrc"
-        v-model:is-edit="isEdit"
         v-model:is-modal-showed="isModalShowed"
-        v-model:card-for-edit="cardForEdit"
+        v-model:card="card"
         v-model:delete-dialog="deleteDialog"
         v-model:delete-index="deleteIndex"
         v-model:delete-name="deleteName"
@@ -18,9 +17,8 @@
     <cards-small-table
         v-model:active-page="activePage"
         :get-src="getSrc"
-        v-model:is-edit="isEdit"
         v-model:is-modal-showed="isModalShowed"
-        v-model:card-for-edit="cardForEdit"
+        v-model:card="card"
         v-model:delete-dialog="deleteDialog"
         v-model:delete-index="deleteIndex"
         v-model:delete-name="deleteName"
@@ -29,11 +27,9 @@
   </div>
   <div v-if="isModalShowed">
     <cards-modal
-        v-model:card-for-edit="cardForEdit"
         v-model:is-modal-showed="isModalShowed"
-        v-model:is-edit="isEdit"
         :get-src="getSrc"
-        v-model:card-for-create="cardForCreate"
+        v-model:card="card"
     ></cards-modal>
   </div>
   <el-dialog
@@ -63,15 +59,7 @@ import CardsSmallTable from '@views/components/table/cards/small-table/cards-sma
 import CardsModal from '@views/components/table/cards/cards-modal.vue'
 
 @Options({
-  name: 'service-cards',
-  components: {
-    Pagination,
-    Plus,
-    Search,
-    CardsBigTable,
-    CardsSmallTable,
-    CardsModal
-  }
+  name: 'service-cards'
 })
 export default class ServiceCards extends Vue {
   activePage: number = 1
@@ -80,19 +68,8 @@ export default class ServiceCards extends Vue {
   deleteName: string
   isModalShowed: boolean = false
   isEdit: boolean = false
-  cardForEdit: ServiceCardType = {
-    id: Math.floor(Math.random() * (10000 - 1) + 1),
-    university: '',
-    position: 'guest',
-    photo: (Math.random() + 1).toString(36).substring(7),
-    phone: 0,
-    experience: '',
-    education: '',
-    birthday: new Date(),
-    name: ''
-  }
-  cardForCreate: ServiceCardType = {
-    id: Math.floor(Math.random() * (10000 - 1) + 1),
+  card: ServiceCardType = {
+    id: 0,
     university: '',
     position: 'guest',
     photo: (Math.random() + 1).toString(36).substring(7),
@@ -127,6 +104,33 @@ export default class ServiceCards extends Vue {
   margin: 0;
   background: white;
   width: 100%;
+
+
+  //i can't remove that because on this width % stop reducing size
+  @media(max-width: 1200px) {
+    width: 95%;
+  }
+  @media(max-width: 1150px) {
+    width: 90%;
+  }
+  @media(max-width: 1100px) {
+    width: 85%;
+  }
+  @media(max-width: 1050px) {
+    width: 80%;
+  }
+  @media(max-width: 1000px) {
+    width: 90%;
+  }
+  @media(max-width: 950px) {
+    width: 85%;
+  }
+  @media(max-width: 800px) {
+    width: 100%;
+  }
+  @media(max-width: 400px) {
+    width: 85%;
+  }
 
   .info {
     height: 52px;

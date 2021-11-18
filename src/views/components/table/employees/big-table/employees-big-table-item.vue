@@ -8,10 +8,10 @@
         employee.position === 'admin' ? 'Администратор' : 'Гость'
       }}</span>
     <span class="col-cell col-name-age">{{ employee.age }}</span>
-    <button v-if="employeePage === 1" class="col-cell-square" style="margin-right: 1px;" @click="() => {changeEmployeeForEdit({...employee}); changeIsModalShowed(true); changeIsEdit(true);}">
+    <button v-if="employeePage === 1" class="col-cell-square" style="margin-right: 1px;" @click="() => {changeEmployee({...employee}); changeIsModalShowed(true);}">
       <img src="~@assets/icons/edit.svg" alt="edit">
     </button>
-    <button v-if="employeePage === 2" class="col-cell-square" style="margin-right: 1px;" @click="()=>{this.$store.commit('toggleIsEdit'); this.$store.commit('updateEditProduct', employee);$router.push({name: 'edit-or-create-employee'})}">
+    <button v-if="employeePage === 2" class="col-cell-square" style="margin-right: 1px;" @click="()=>{this.$store.commit('updateEmployee', employee);$router.push({name: 'edit-or-create-employee'})}">
       <img src="~@assets/icons/edit.svg" alt="edit">
     </button>
     <button class="col-cell-square"
@@ -34,9 +34,8 @@ export default class EmployeesBigTableItem extends Vue {
   @Prop() index!: number
   @Prop() employee!: EmployeeType
   @Prop() activePage!: number
-  @Prop() changeEmployeeForEdit: (employee: EmployeeType) => EmployeeType
+  @Prop() changeEmployee: (employee: EmployeeType) => EmployeeType
   @Prop() changeIsModalShowed: (value: boolean) => boolean
-  @Prop() changeIsEdit: (value: boolean) => boolean
   @Prop() deleteEmployee!: (index: number) => void
 }
 </script>
@@ -44,7 +43,7 @@ export default class EmployeesBigTableItem extends Vue {
 <style scoped lang="less">
 .row {
   width: 100%;
-  height: 37px;
+  height: 35px;
   display: flex;
 
   @media (max-width: 1400px) and (min-width: 1000px) {
@@ -64,31 +63,16 @@ export default class EmployeesBigTableItem extends Vue {
     display: flex;
     align-items: center;
     padding-left: 12px;
+    width: calc((100% - 70px)/4);
 
     @media (max-width: 1000px) {
       font-size: 13px;
     }
   }
 
-  .col-name-id {
-    width: 205px;
-  }
-
-  .col-name-initials {
-    width: 237px;
-  }
-
-  .col-name-position {
-    width: 219px;
-  }
-
-  .col-name-age {
-    width: 229px;
-  }
-
   .col-cell-square {
     background: #E6EAF6;
-    width: 37px;
+    width: 35px;
     height: 100%;
     display: flex;
     justify-content: center;

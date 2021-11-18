@@ -13,8 +13,7 @@
           :employee="employee"
           v-model:delete-employee="deleteEmployee"
           v-model:active-page="activePage"
-          v-model:change-employee-for-edit="changeEmployeeForEdit"
-          v-model:change-is-edit="changeIsEdit"
+          v-model:change-employee="changeEmployee"
           v-model:change-is-modal-showed="changeIsModalShowed"
           :index="index"
           :employee-page="employeePage"
@@ -38,7 +37,6 @@ import EmployeesSmallTableItem from '@views/components/table/employees/small-tab
 
 @Options({
   name: 'small-table',
-  components: {EmployeesSmallTableItem, Pagination}
 })
 export default class EmployeesSmallTable extends Vue {
   @Prop() employeePage!: number
@@ -47,13 +45,9 @@ export default class EmployeesSmallTable extends Vue {
     return page
   }
   @Prop() deleteEmployee!: (index: number) => void
-  @Prop() employeeForEdit: EmployeeType | undefined
-  @Emit('update:employeeForEdit') changeEmployeeForEdit(employee: EmployeeType) {
+  @Prop() employee: EmployeeType | undefined
+  @Emit('update:employee') changeEmployee(employee: EmployeeType) {
     return employee
-  }
-  @Prop() isEdit: boolean
-  @Emit('update:isEdit') changeIsEdit(value: boolean) {
-    return value
   }
   @Prop() isModalShowed: boolean
   @Emit('update:isModalShowed') changeIsModalShowed(value: boolean) {
@@ -91,7 +85,7 @@ export default class EmployeesSmallTable extends Vue {
     }
 
     .search-btn-small {
-      width: 35px;
+      width: 10%;
       height: 35px;
       background: #FF0000;
       border: none;
@@ -101,8 +95,8 @@ export default class EmployeesSmallTable extends Vue {
       align-items: center;
 
       .search-btn-small-icon {
-        width: 25px;
-        height: 25px;
+        width: 20px;
+        height: 20px;
       }
     }
   }

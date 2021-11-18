@@ -11,7 +11,7 @@
     <span class="col-cell">{{ card.education }}</span>
     <span class="col-cell">{{ card.experience }}</span>
     <span class="col-cell">{{ card.university }}</span>
-    <button class="col-cell-square" style="margin-right: 1px;" @click="changeCardForEdit({...card});changeIsModalShowed(true); changeIsEdit(true);">
+    <button class="col-cell-square" style="margin-right: 1px;" @click="changeCard({...card});changeIsModalShowed(true);;">
       <img src="~@assets/icons/edit.svg" alt="edit">
     </button>
     <button class="col-cell-square" @click="changeDeleteDialog(true);changeDeleteIndex(index);changeDeleteName(card.name)">
@@ -30,9 +30,8 @@ import {ServiceCardType} from '@/store'
 export default class CardsBigTableItem extends Vue {
   @Prop() getSrc!: (key:string) => string
   @Prop() card!: ServiceCardType
-  @Prop() changeCardForEdit!: (card: ServiceCardType) => ServiceCardType
+  @Prop() changeCard!: (card: ServiceCardType) => ServiceCardType
   @Prop() changeIsModalShowed!: (value: boolean) => boolean
-  @Prop() changeIsEdit!: (value: boolean) => boolean
   @Prop() changeDeleteDialog!: (value: boolean) => boolean
   @Prop() changeDeleteIndex!: (index: number) => number
   @Prop() changeDeleteName!: (name: string) => string

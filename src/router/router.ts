@@ -3,18 +3,19 @@ import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import LoginPage from '@/views/pages/login/login.vue'
 import ErrorPageComponent from '@views/pages/error404/error404.vue'
 import ReferenceShopBooks from '@views/pages/reference-shop-books/reference-shop-books.vue'
-import Employees from '@views/pages/employees/employees.vue'
+import EmployeesWithModal from '@views/pages/employees/employees-with-modal.vue'
 import Points from '@views/pages/points/points.vue'
 import {
   DEFAULT,
   EDITOR_CREATE_EMPLOYEE,
-  EMPLOYEES,
-  EMPLOYEES2,
+  EMPLOYEES_WITH_MODAL,
+  EMPLOYEES_WITHOUT_MODAL,
   LOGIN,
   POINTS,
-  REFERENCE_SHOP_BOOKS, SERVICE_CARDS
+  REFERENCE_SHOP_BOOKS,
+  SERVICE_CARDS
 } from './routerNames'
-import Employees2 from '@views/pages/employees/employees2.vue'
+import EmployeesWithoutModal from '@views/pages/employees/employees-without-modal.vue'
 import EditOrCreateEmployee from '@views/pages/employees/edit-or-create-employee.vue'
 import ServiceCards from '@views/pages/service-cards/service-cards.vue'
 //#region Admin
@@ -47,10 +48,10 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
-        path: 'employees',
-        name: EMPLOYEES,
-        component: Employees,
-        meta: {title: 'Сотрудники'}
+        path: 'employees-with-modal',
+        name: EMPLOYEES_WITH_MODAL,
+        component: EmployeesWithModal,
+        meta: {title: 'Сотрудники c модыльным окном'}
       },
       {
         name: REFERENCE_SHOP_BOOKS,
@@ -65,10 +66,10 @@ const routes: Array<RouteRecordRaw> = [
         meta: {title: 'Точки'}
       },
       {
-        path: 'employees2',
-        name: EMPLOYEES2,
-        component: Employees2,
-        meta: {title: 'Сотрудники2'}
+        path: 'employees-without-modal',
+        name: EMPLOYEES_WITHOUT_MODAL,
+        component: EmployeesWithoutModal,
+        meta: {title: 'Сотрудники без модального окна'}
       },
       {
         path: 'edit-or-create-employee',

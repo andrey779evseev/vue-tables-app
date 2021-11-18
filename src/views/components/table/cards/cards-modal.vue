@@ -2,28 +2,19 @@
   <div class="modal">
     <div class="modal-container">
       <div class="modal-info">
-        <span class="title" v-if="!isEdit">Добавлеие служебной карты</span>
-        <span class="title" v-if="isEdit">Редактировние служебной карты</span>
-        <button class="close" @click="changeIsModalShowed(false); changeIsEdit(false)">
+        <span class="title">{{ card.id !== 0 ? 'Редактировние служебной карты' : 'Добавлеие служебной карты' }}</span>
+        <button class="close" @click="changeIsModalShowed(false);clearCard()">
           <img src="~@assets/icons/close.svg" alt="close">
         </button>
       </div>
       <div class="modal-content">
         <div class="modal-input-container">
           <span class="modal-label">ФИО</span>
-          <input type="text" class="modal-input" v-if="!isEdit" v-model="cardForCreate.name"/>
-          <input type="text" class="modal-input" v-if="isEdit" v-model="cardForEdit.name"/>
+          <input type="text" class="modal-input" v-model="card.name"/>
         </div>
         <div class="modal-input-container">
           <span class="modal-label">Должность</span>
-          <el-select v-model="cardForCreate.position" placeholder="Select" filterable v-if="!isEdit">
-            <el-option v-for="option in selectOptions"
-                       :key="option.value"
-                       :label="option.label"
-                       :value="option.value"
-            ></el-option>
-          </el-select>
-          <el-select v-model="cardForEdit.position" placeholder="Select" filterable v-if="isEdit">
+          <el-select v-model="card.position" placeholder="Select" filterable>
             <el-option v-for="option in selectOptions"
                        :key="option.value"
                        :label="option.label"
@@ -33,37 +24,24 @@
         </div>
         <div class="modal-input-container">
           <span class="modal-label">Образование</span>
-          <input type="text" class="modal-input" v-model="cardForCreate.education" v-if="!isEdit"/>
-          <input type="text" class="modal-input" v-model="cardForEdit.education" v-if="isEdit"/>
+          <input type="text" class="modal-input" v-model="card.education"/>
         </div>
         <div class="modal-input-container">
           <span class="modal-label">Опты работы</span>
-          <input type="text" class="modal-input" v-model="cardForCreate.experience" v-if="!isEdit"/>
-          <input type="text" class="modal-input" v-model="cardForEdit.experience" v-if="isEdit"/>
+          <input type="text" class="modal-input" v-model="card.experience"/>
         </div>
         <div class="modal-input-container">
           <span class="modal-label">ВУЗ</span>
-          <input type="text" class="modal-input" v-model="cardForCreate.university" v-if="!isEdit"/>
-          <input type="text" class="modal-input" v-model="cardForEdit.university" v-if="isEdit"/>
+          <input type="text" class="modal-input" v-model="card.university"/>
         </div>
         <div class="modal-input-container">
           <span class="modal-label">Телефон</span>
-          <input type="number" class="modal-input" v-model="cardForCreate.phone" v-if="!isEdit"/>
-          <input type="number" class="modal-input" v-model="cardForEdit.phone" v-if="isEdit"/>
+          <input type="number" class="modal-input" v-model="card.phone"/>
         </div>
         <div class="modal-input-container">
           <span class="modal-label">Дата рождения</span>
           <el-date-picker
-              v-if="!isEdit"
-              v-model="cardForCreate.birthday"
-              type="date"
-              placeholder="Выбирите дату рождения"
-              :disabled-date="disabledDate"
-          >
-          </el-date-picker>
-          <el-date-picker
-              v-if="isEdit"
-              v-model="cardForEdit.birthday"
+              v-model="card.birthday"
               type="date"
               placeholder="Выбирите дату рождения"
               :disabled-date="disabledDate"
@@ -72,11 +50,12 @@
         </div>
         <div class="modal-input-container">
           <span class="modal-label">Фото</span>
-          <input v-if="!(photo && !isEdit || isEdit && getSrc(cardForEdit.photo))" class="modal-input" type="file" placeholder="Загрузите фото" :value="photoInput"
+          <input v-if="!(photo && card.id === 0 || card.id !== 0 && getSrc(card.photo))" class="modal-input" type="file"
+                 placeholder="Загрузите фото" :value="photoInput"
                  v-on:change="(e) => {photoInput = e.target.value; saveImage(e.target.files[0])}">
-          <div v-if="photo && !isEdit || isEdit && getSrc(cardForEdit.photo)" class="photo-container">
-            <img v-if="isEdit" :src="getSrc(cardForEdit.photo)" alt="" height="50" width="50" @click="dialogVisible = true; dialogImageUrl = getSrc(cardForEdit.photo)">
-            <img v-if="!isEdit" :src="photo" alt="" height="50" width="50" @click="dialogVisible = true; dialogImageUrl = photo">
+          <div v-if="photo && card.id === 0 || card.id !== 0 && getSrc(card.photo)" class="photo-container">
+            <img :src="card.id !== 0 ? getSrc(card.photo) : photo" alt="" height="50" width="50"
+                 @click="dialogVisible = true; dialogImageUrl = getSrc(card.photo)">
             <el-icon @click="removeImage" class="btn" :size="25" color="#162147">
               <delete-filled/>
             </el-icon>
@@ -86,9 +65,8 @@
           </el-dialog>
         </div>
         <div class="modal-actions">
-          <button class="modal-btn modal-cancel" @click="changeIsModalShowed(false); changeIsEdit(false)">Отмена</button>
-          <button class="modal-btn modal-add" v-if="!isEdit" @click="createCard">Добавить</button>
-          <button class="modal-btn modal-add" v-if="isEdit" @click="editEmployee">Сохранить</button>
+          <button class="modal-btn modal-cancel" @click="changeIsModalShowed(false);clearCard()">Отмена</button>
+          <button class="modal-btn modal-add" @click="saveCard">{{ card.id === 0 ? 'Добавить' : 'Сохранить' }}</button>
         </div>
       </div>
     </div>
@@ -108,22 +86,18 @@ import {DeleteFilled} from '@element-plus/icons'
 })
 export default class CardsModal extends Vue {
   @Prop() isModalShowed!: boolean
+
   @Emit('update:isModalShowed') changeIsModalShowed(value: boolean) {
     return value
   }
-  @Prop() isEdit!: boolean
-  @Emit('update:isEdit') changeIsEdit(value: boolean) {
-    return value
-  }
-  @Prop() cardForEdit: ServiceCardType
-  @Emit('update:cardForCreate') changeCardForCreate(card: ServiceCardType) {
+
+  @Prop() card: ServiceCardType
+
+  @Emit('update:card') changeCard(card: ServiceCardType) {
     return card
   }
-  @Prop() cardForCreate: ServiceCardType
-  @Emit('update:cardForEdit') changeCardForEdit(card: ServiceCardType) {
-    return card
-  }
-  @Prop() getSrc!: (key:string) => string
+
+  @Prop() getSrc!: (key: string) => string
   photo = ''
   photoInput = ''
   selectOptions = [
@@ -132,31 +106,31 @@ export default class CardsModal extends Vue {
   ]
   dialogImageUrl: string = ''
   dialogVisible: boolean = false
-  createCard() {
-    this.$store.commit('addCard', {
-      ...this.cardForCreate
-    })
-    this.changeCardForCreate({
-      id: Math.floor(Math.random() * (10000 - 1) + 1),
+
+  clearCard() {
+    this.changeCard({
+      id: 0,
       university: '',
       position: 'guest',
-      photo: (Math.random() + 1).toString(36).substring(7),
+      photo: '',
       phone: 0,
       experience: '',
       education: '',
       birthday: new Date(),
       name: ''
     })
-    this.changeIsModalShowed(false)
-    this.photoInput = ''
-    this.photo = ''
-    this.dialogImageUrl = ''
   }
 
-  editEmployee() {
-    this.$store.commit('updateCard', this.cardForEdit)
+  saveCard() {
+    if (this.card.id !== 0) {
+      this.$store.commit('updateCard', this.card)
+    } else {
+      this.$store.commit('addCard', {
+        ...this.card, id: Math.floor(Math.random() * (10000 - 1) + 1)
+      })
+    }
+    this.clearCard()
     this.changeIsModalShowed(false)
-    this.changeIsEdit(false)
     this.photoInput = ''
     this.photo = ''
     this.dialogImageUrl = ''
@@ -167,10 +141,7 @@ export default class CardsModal extends Vue {
     reader.onloadend = () => {
       const base64String = reader.result
       if (localStorage) {
-        if(this.isEdit)
-          localStorage.setItem(this.cardForEdit.photo, base64String as string)
-        else
-          localStorage.setItem(this.cardForCreate.photo, base64String as string)
+        localStorage.setItem(this.card.photo, base64String as string)
       }
       this.photo = base64String as string
     }
@@ -178,12 +149,8 @@ export default class CardsModal extends Vue {
   }
 
   removeImage() {
-    if (localStorage) {
-      if(this.isEdit)
-        localStorage.removeItem(this.cardForEdit.photo)
-      else
-        localStorage.removeItem(this.cardForCreate.photo)
-    }
+    if (localStorage)
+      localStorage.removeItem(this.card.photo)
 
     this.dialogImageUrl = ''
     this.photo = ''
@@ -355,6 +322,7 @@ export default class CardsModal extends Vue {
     }
   }
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

@@ -15,13 +15,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import LayoutHeader from "@layouts/layout-header.vue";
-import LayoutSidebar from "@layouts/layout-sidebar.vue";
 @Options({
-  components: {
-    LayoutHeader,
-    LayoutSidebar,
-  },
   name: 'layout'
 })
 export default class Layout extends Vue {
@@ -55,9 +49,11 @@ body {
     flex-grow: 1;
     background: #ECECEC;
     display: flex;
+    justify-content: space-between;
     overflow-x: auto;
     .content {
       margin: 24px 27px 24px 27px;
+      width: 100%;
     }
   }
 }

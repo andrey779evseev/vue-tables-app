@@ -9,11 +9,10 @@
       <div v-if="index > (activePage - 1)*12 - 1 && index < activePage*12 || activePage === 1 && index < 12">
         <cards-small-table-item
             :get-src="getSrc"
-            :change-card-for-edit="changeCardForEdit"
+            :change-card="changeCard"
             :card="card"
             :change-delete-dialog="changeDeleteDialog"
             :change-delete-index="changeDeleteIndex"
-            :change-is-edit="changeIsEdit"
             :change-is-modal-showed="changeIsModalShowed"
             :change-delete-name="changeDeleteName"
             :get-formatted-date="getFormattedDate"
@@ -38,8 +37,7 @@ import CardsSmallTableItem from '@views/components/table/cards/small-table/cards
 @Options({
   name: 'cards-small-table',
   components: {
-    Search,
-    CardsSmallTableItem
+    Search
   }
 })
 export default class CardsSmallTable extends Vue {
@@ -52,12 +50,8 @@ export default class CardsSmallTable extends Vue {
   @Emit('update:isModalShowed') changeIsModalShowed(value: boolean) {
     return value
   }
-  @Prop() isEdit!: boolean
-  @Emit('update:isEdit') changeIsEdit(value: boolean) {
-    return value
-  }
-  @Prop() cardForEdit!: ServiceCardType
-  @Emit('update:cardForEdit') changeCardForEdit(card: ServiceCardType) {
+  @Prop() card!: ServiceCardType
+  @Emit('update:card') changeCard(card: ServiceCardType) {
     return card
   }
   @Prop() deleteDialog!: boolean
@@ -79,40 +73,11 @@ export default class CardsSmallTable extends Vue {
 <style scoped lang="less">
 .small-table-container {
   padding: 10px 20px 30px 20px;
-  width: 670px;
+  width: 100%;
   display: none;
 
   @media(max-width: 800px) {
     display: block;
-    width: 640px;
-  }
-
-  @media(max-width: 750px) {
-    width: 600px;
-  }
-
-  @media(max-width: 700px) {
-    width: 490px;
-  }
-
-  @media(max-width: 600px) {
-    width: 430px;
-  }
-
-  @media(max-width: 550px) {
-    width: 390px;
-  }
-
-  @media(max-width: 500px) {
-    width: 395px;
-  }
-
-  @media(max-width: 450px) {
-    width: 350px;
-  }
-
-  @media(max-width: 400px) {
-    width: 270px;
   }
 
   .search {

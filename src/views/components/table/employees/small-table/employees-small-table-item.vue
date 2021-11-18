@@ -3,27 +3,27 @@
        v-if="index > (activePage - 1)*12 - 1 && index < activePage*12 || activePage === 1 && index < 12">
     <div class="table-small-row">
       <span class="small-col-name">id</span>
-      <span class="small-ceil">{{ employee.id }}</span>
+      <span class="small-cell">{{ employee.id }}</span>
     </div>
     <div class="table-small-row">
       <span class="small-col-name">ФИО</span>
-      <p class="small-ceil">{{ employee.name }}</p>
+      <p class="small-cell">{{ employee.name }}</p>
     </div>
     <div class="table-small-row">
       <span class="small-col-name">Должность</span>
-      <span class="small-ceil">{{ employee.position === 'admin' ? 'Администратор' : 'Гость' }}</span>
+      <span class="small-cell">{{ employee.position === 'admin' ? 'Администратор' : 'Гость' }}</span>
     </div>
     <div class="table-small-row">
       <span class="small-col-name">Возраст</span>
-      <span class="small-ceil">{{ employee.age }}</span>
+      <span class="small-cell">{{ employee.age }}</span>
     </div>
     <div class="table-small-row">
       <button class="small-table-edit-btn" v-if="employeePage === 1"
-              @click="() => {changeEmployeeForEdit({...employee}); changeIsModalShowed(true); changeIsEdit(true)}">
+              @click="() => {changeEmployee({...employee}); changeIsModalShowed(true);}">
         <img src="~@assets/icons/edit.svg" alt="edit">
       </button>
       <button class="small-table-edit-btn" v-if="employeePage === 2"
-              @click="()=>{this.$store.commit('toggleIsEdit'); this.$store.commit('updateEditProduct', employee); $router.push({name: 'edit-or-create-employee'})}">
+              @click="()=>{this.$store.commit('updateEmployee', employee); $router.push({name: 'edit-or-create-employee'})}">
         <img src="~@assets/icons/edit.svg" alt="edit">
       </button>
       <button class="small-table-delete-btn" @click="deleteEmployee(index)">
@@ -45,9 +45,8 @@ export default class EmployeesSmallTableItem extends Vue {
   @Prop() index!: number
   @Prop() employee!: EmployeeType
   @Prop() activePage!: number
-  @Prop() changeEmployeeForEdit!: (employee: EmployeeType) => EmployeeType
+  @Prop() changeEmployee!: (employee: EmployeeType) => EmployeeType
   @Prop() changeIsModalShowed!: (value: boolean) => boolean
-  @Prop() changeIsEdit!: (value: boolean) => boolean
   @Prop() deleteEmployee!: (index: number) => void
 }
 </script>
@@ -71,7 +70,7 @@ export default class EmployeesSmallTableItem extends Vue {
       align-items: center;
       color: #3B4272;
       background: #E6EAF6;
-      width: 212.5px;
+      width: 49.8%;
       border: none;
       height: 100%;
       margin-right: 1px;
@@ -83,12 +82,12 @@ export default class EmployeesSmallTableItem extends Vue {
       align-items: center;
       color: #3B4272;
       background: #E6EAF6;
-      width: 212px;
+      width: 50%;
       border: none;
       height: 100%;
     }
 
-    .small-ceil {
+    .small-cell {
       height: 100%;
       color: #3B4272;
       background: #E6EAF6;
@@ -99,6 +98,11 @@ export default class EmployeesSmallTableItem extends Vue {
       padding-right: 10px;
       overflow-x: auto;
       white-space: nowrap;
+      font-size: 14px;
+
+      @media(max-width: 800px) {
+        font-size: 12px;
+      }
 
       @media (max-width: 320px) {
         padding-left: 10px;
@@ -117,6 +121,11 @@ export default class EmployeesSmallTableItem extends Vue {
       padding-left: 20px;
       display: flex;
       align-items: center;
+      font-size: 14px;
+
+      @media(max-width: 800px) {
+        font-size: 12px;
+      }
       @media (max-width: 320px) {
         padding-left: 10px;
       }

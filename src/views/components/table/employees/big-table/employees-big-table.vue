@@ -22,8 +22,7 @@
             :employee="employee"
             v-model:delete-employee="deleteEmployee"
             v-model:active-page="activePage"
-            v-model:change-employee-for-edit="changeEmployeeForEdit"
-            v-model:change-is-edit="changeIsEdit"
+            v-model:change-employee="changeEmployee"
             v-model:change-is-modal-showed="changeIsModalShowed"
             :index="index"
             :employee-page="employeePage"
@@ -41,12 +40,9 @@
 <script lang="ts">
 import {Vue, Options, Prop, Emit} from 'vue-property-decorator'
 import {EmployeeType} from '@/store'
-import Pagination from '@views/components/pagination.vue'
-import EmployeesBigTableItem from '@views/components/table/employees/big-table/employees-big-table-item.vue'
 
 @Options({
   name: 'employees-big-table',
-  components: {EmployeesBigTableItem, Pagination}
 })
 export default class EmployeesBigTable extends Vue {
   @Prop() employeePage!: number
@@ -55,13 +51,9 @@ export default class EmployeesBigTable extends Vue {
     return page
   }
   @Prop() deleteEmployee!: (index: number) => void
-  @Prop() employeeForEdit: EmployeeType | undefined
-  @Emit('update:employeeForEdit') changeEmployeeForEdit(employee: EmployeeType) {
+  @Prop() employee: EmployeeType | undefined
+  @Emit('update:employee') changeEmployee(employee: EmployeeType) {
     return employee
-  }
-  @Prop() isEdit: boolean
-  @Emit('update:isEdit') changeIsEdit(value: boolean) {
-    return value
   }
   @Prop() isModalShowed: boolean
   @Emit('update:isModalShowed') changeIsModalShowed(value: boolean) {
@@ -77,6 +69,7 @@ export default class EmployeesBigTable extends Vue {
   padding: 35px 35px 51px 29px;
   display: flex;
   flex-direction: column;
+  width: 100%;
   @media (max-width: 800px) {
     display: none;
   }
@@ -87,7 +80,7 @@ export default class EmployeesBigTable extends Vue {
     align-items: center;
 
     .input {
-      width: 878px;
+      width: 90%;
       height: 35px;
       margin-right: 6px;
       border: 1px solid #CED4DE;
@@ -100,7 +93,7 @@ export default class EmployeesBigTable extends Vue {
     }
 
     .btn {
-      width: 85px;
+      width: 10%;
       height: 36px;
       background: red;
       color: white;
@@ -135,36 +128,19 @@ export default class EmployeesBigTable extends Vue {
         display: flex;
         align-items: center;
         padding-left: 12px;
+        width: calc((100% - 70px) / 4);
 
         @media (max-width: 1000px) {
           font-size: 13px;
         }
       }
 
-      .col-name-id {
-        width: 205px;
-      }
-
-      .col-name-initials {
-        width: 237px;
-      }
-
-      .col-name-position {
-        width: 219px;
-      }
-
-      .col-name-age {
-        width: 229px;
-      }
-
       .col-name-square {
-        width: 37px;
+        width: 35px;
         height: 100%;
         background: #C8D1DE;
       }
-
     }
   }
-
 }
 </style>

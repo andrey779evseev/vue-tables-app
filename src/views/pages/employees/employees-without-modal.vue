@@ -2,30 +2,19 @@
   <div class="container">
     <div class="info">
       <span class="title">Сотрудники</span>
-      <button class="btn" @click="this.isModalShowed = true;">Добавить сотрудника</button>
+      <button class="btn" @click="$router.push({name: 'edit-or-create-employee'})">Добавить сотрудника</button>
     </div>
     <employees-big-table
         v-model:active-page="activePage"
         v-model:delete-employee="deleteEmployee"
-        v-model:employee-for-edit="employeeForEdit"
-        v-model:is-edit="isEdit"
-        v-model:is-modal-showed="isModalShowed"
-        :employee-page="1"
+        :employee-page="2"
     ></employees-big-table>
     <employees-small-table
         v-model:active-page="activePage"
         v-model:delete-employee="deleteEmployee"
-        v-model:employee-for-edit="employeeForEdit"
-        v-model:is-edit="isEdit"
-        v-model:is-modal-showed="isModalShowed"
-        :employee-page="1"
+        :employee-page="2"
     ></employees-small-table>
   </div>
-  <employees-modal  v-if="isModalShowed"
-      v-model:is-modal-showed="isModalShowed"
-      v-model:is-edit="isEdit"
-      v-model:employee="employeeForEdit"
-  ></employees-modal>
   <el-dialog
       v-model="deleteDialog"
       title="Удаление сотрудника"
@@ -46,25 +35,15 @@
 <script lang="ts">
 import {Options, Vue} from 'vue-property-decorator'
 import {ElSelectV2} from 'element-plus'
-import {EmployeeType} from '@/store'
 import EmployeesSmallTable from '@views/components/table/employees/small-table/employees-small-table.vue'
 import EmployeesBigTable from '@views/components/table/employees/big-table/employees-big-table.vue'
-import EmployeesModal from '@views/components/table/employees/employees-modal.vue'
+
 
 @Options({
-  name: 'employees',
-  components: {
-    EmployeesModal,
-    EmployeesSmallTable,
-    EmployeesBigTable,
-    ElSelectV2
-  }
+  name: 'employees-without-modal'
 })
-export default class Employees extends Vue {
+export default class EmployeesWithoutModal extends Vue {
   activePage: number = 1
-  isModalShowed: boolean = false
-  isEdit: boolean = false
-  employeeForEdit: EmployeeType = {id: 0, name: '', position: 'admin', age: 0}
   deleteDialog: boolean = false
   deleteIndex: number
   deleteName: string
@@ -77,6 +56,7 @@ export default class Employees extends Vue {
 }
 </script>
 
+
 <style scoped lang="less">
 .container {
   display: flex;
@@ -84,38 +64,7 @@ export default class Employees extends Vue {
   padding: 0;
   margin: 0;
   background: white;
-
-  @media (max-width: 1400px) and (min-width: 1000px) {
-    width: 750px;
-  }
-
-  @media (max-width: 1000px) {
-    width: 690px;
-  }
-
-  @media (max-width: 800px) {
-    width: 490px;
-  }
-
-  @media (max-width: 600px) {
-    width: 450px;
-  }
-
-  @media (max-width: 550px) {
-    width: 400px;
-  }
-
-  @media (max-width: 500px) {
-    width: 350px;
-  }
-
-  @media (max-width: 400px) {
-    width: 280px;
-  }
-
-  @media (max-width: 320px) {
-    width: 270px;
-  }
+  width: 100%;
 
   .info {
     height: 52px;

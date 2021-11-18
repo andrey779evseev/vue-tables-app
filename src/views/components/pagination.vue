@@ -36,7 +36,7 @@
 import {Options, Prop, Vue, Watch} from 'vue-property-decorator'
 
 @Options({
-  name: 'pagination',
+  name: 'pagination'
 })
 export default class Pagination extends Vue {
   @Prop() pageName!: 'employees' | 'cards'

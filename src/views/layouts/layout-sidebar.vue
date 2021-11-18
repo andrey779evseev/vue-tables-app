@@ -7,11 +7,11 @@
       <router-link class="menu-item" :to="{ name: Points }">
         <img src="~@assets/icons/earth.svg" alt="earth" class="icon"><span class="name">Точки</span>
       </router-link>
-      <router-link class="menu-item" :to="{ name: Employees }">
-        <img src="~@assets/icons/people.svg" alt="people" class="icon"><span class="name">Сотрудники</span>
+      <router-link class="menu-item" :to="{ name: EmployeesWithModal }">
+        <img src="~@assets/icons/people.svg" alt="people" class="icon"><span class="name">Сотрудники (модальное)</span>
       </router-link>
-      <router-link class="menu-item" :to="{ name: Employees2 }">
-        <img src="~@assets/icons/people.svg" alt="people" class="icon"><span class="name">Сотрудники2</span>
+      <router-link class="menu-item" :to="{ name: EmployeesWithoutModal }">
+        <img src="~@assets/icons/people.svg" alt="people" class="icon"><span class="name">Сотрудники (страничка)</span>
       </router-link>
       <router-link class="menu-item" :to="{ name: ServiceCards }">
         <el-icon class="icon"><postcard /></el-icon><span class="name">Служебные карточки</span>
@@ -22,7 +22,7 @@
 <script lang="ts">
 import {Options, Vue} from 'vue-property-decorator'
 import {
-  EMPLOYEES, EMPLOYEES2,
+  EMPLOYEES_WITH_MODAL, EMPLOYEES_WITHOUT_MODAL,
   POINTS, REFERENCE_SHOP_BOOKS, SERVICE_CARDS
 } from '@/router/routerNames'
 import {Postcard} from '@element-plus/icons'
@@ -35,8 +35,8 @@ import {Postcard} from '@element-plus/icons'
 })
 export default class LayoutSidebar extends Vue {
   Points = POINTS
-  Employees = EMPLOYEES
-  Employees2 = EMPLOYEES2
+  EmployeesWithModal = EMPLOYEES_WITH_MODAL
+  EmployeesWithoutModal = EMPLOYEES_WITHOUT_MODAL
   ReferenceShopBooks = REFERENCE_SHOP_BOOKS
   ServiceCards = SERVICE_CARDS
 }
@@ -45,11 +45,20 @@ export default class LayoutSidebar extends Vue {
 <style scoped lang="less">
 .show {
   display: block !important;
+
+  @media(max-width: 500px) {
+    position: fixed;
+    left: 0;
+    top: 40px;
+    height: 100%;
+    z-index: 999;
+  }
 }
 
 .sidebar {
   background: #0B0B10;
   width: 300px;
+  min-width: 300px;
   transition: all 0.8s;
   overflow: visible;
   margin-left: 0;
@@ -61,6 +70,7 @@ export default class LayoutSidebar extends Vue {
 
   @media (max-width: 1000px) {
     width: 58px;
+    min-width: 58px;
   }
 
   @media (max-width: 500px) {
@@ -72,9 +82,6 @@ export default class LayoutSidebar extends Vue {
 
     @media (max-width: 600px) {
       margin-top: 15px;
-    }
-    @media (max-width: 320px) {
-      margin-top: 10px;
     }
   }
 

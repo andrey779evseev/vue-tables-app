@@ -2,28 +2,19 @@
   <div class="modal">
     <div class="modal-container">
       <div class="modal-info">
-        <span class="title" v-if="!isEdit">Добавление сотрудника</span>
-        <span class="title" v-if="isEdit">Редактировние сотрудника</span>
-        <button class="close" @click="changeIsModalShowed(false); changeIsEdit(false)">
+        <span class="title">{{ employee.id !== 0 ? 'Редактировние сотрудника' : 'Добавление сотрудника' }}</span>
+        <button class="close" @click="changeIsModalShowed(false); clearEmployee()">
           <img src="~@assets/icons/close.svg" alt="close">
         </button>
       </div>
       <div class="modal-content">
         <div class="modal-input-container modal-initials">
           <span class="modal-label">ФИО</span>
-          <input type="text" class="modal-input" v-if="!isEdit" v-model="name"/>
-          <input type="text" class="modal-input" v-if="isEdit" v-model="employeeForEdit.name"/>
+          <input type="text" class="modal-input" v-model="employee.name"/>
         </div>
         <div class="modal-input-container modal-position">
           <span class="modal-label">Должность</span>
-          <el-select v-model="selectValue" placeholder="Select" filterable v-if="!isEdit">
-            <el-option v-for="option in selectOptions"
-                       :key="option.value"
-                       :label="option.label"
-                       :value="option.value"
-            ></el-option>
-          </el-select>
-          <el-select v-model="employeeForEdit.position" placeholder="Select" filterable v-if="isEdit">
+          <el-select v-model="employee.position" placeholder="Select" filterable>
             <el-option v-for="option in selectOptions"
                        :key="option.value"
                        :label="option.label"
@@ -33,13 +24,11 @@
         </div>
         <div class="modal-input-container modal-age">
           <span class="modal-label">Возраст</span>
-          <input type="number" class="modal-input" v-model="age" v-if="!isEdit"/>
-          <input type="number" class="modal-input" v-model="employeeForEdit.age" v-if="isEdit"/>
+          <input type="number" class="modal-input" v-model="employee.age"/>
         </div>
         <div class="modal-actions">
-          <button class="modal-btn modal-cancel" @click="changeIsModalShowed(false); changeIsEdit(false)">Отмена</button>
-          <button class="modal-btn modal-add" v-if="!isEdit" @click="createEmployee">Добавить</button>
-          <button class="modal-btn modal-add" v-if="isEdit" @click="editEmployee">Сохранить</button>
+          <button class="modal-btn modal-cancel" @click="changeIsModalShowed(false);clearEmployee()">Отмена</button>
+          <button class="modal-btn modal-add" @click="saveEmployee">{{ employee.id !== 0 ? 'Сохранить' : 'Добавить' }}</button>
         </div>
       </div>
     </div>
@@ -59,40 +48,26 @@ export default class EmployeesModal extends Vue {
     return value
   }
   @Prop() employee: EmployeeType
-  @Prop() isEdit!: boolean
-  @Emit('update:isEdit') changeIsEdit(value: boolean) {
-    return value
+  @Emit('update:employee') changeEmployee(employee: EmployeeType) {
+    return employee
   }
-  employeeForEdit: EmployeeType
-  selectValue: 'admin' | 'guest' = 'admin'
-  name: string = ''
-  age: number | string = ''
   selectOptions = [
     {value: 'admin', label: 'Администратор'},
     {value: 'guest', label: 'Гость'}
   ]
 
-  created() {
-    if(this.employee)
-      this.employeeForEdit = this.employee
+  clearEmployee() {
+    this.changeEmployee({id: 0, name: '', position: 'admin', age: 0})
   }
 
-  editEmployee() {
-    this.$store.commit('updateEmployee', this.employeeForEdit)
-    this.changeIsEdit(false)
-    this.changeIsModalShowed(false)
-  }
-
-  createEmployee() {
-    this.$store.commit('addEmployee', {
-      id: Math.floor(Math.random() * (10000 - 1) + 1),
-      name: this.name,
-      position: this.selectValue,
-      age: this.age
-    })
-    this.selectValue = 'admin'
-    this.name = ''
-    this.age = ''
+  saveEmployee() {
+    if(this.employee.id !== 0) {
+      this.$store.commit('updateEmployees', this.employee)
+    }
+    else {
+      this.$store.commit('addEmployee', {...this.employee, id: Math.floor(Math.random() * (10000 - 1) + 1)})
+    }
+    this.clearEmployee()
     this.changeIsModalShowed(false)
   }
 }

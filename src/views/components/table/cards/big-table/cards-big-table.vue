@@ -25,11 +25,10 @@
         <div v-if="index > (activePage - 1)*12 - 1 && index < activePage*12 || activePage === 1 && index < 12">
           <cards-big-table-item
               :get-src="getSrc"
-              :change-card-for-edit="changeCardForEdit"
+              :change-card="changeCard"
               :card="card"
               :change-delete-dialog="changeDeleteDialog"
               :change-delete-index="changeDeleteIndex"
-              :change-is-edit="changeIsEdit"
               :change-is-modal-showed="changeIsModalShowed"
               :change-delete-name="changeDeleteName"
               :get-formatted-date="getFormattedDate"
@@ -53,9 +52,6 @@ import CardsBigTableItem from '@views/components/table/cards/big-table/cards-big
 
 @Options({
   name: 'cards-big-table',
-  components: {
-    CardsBigTableItem
-  }
 })
 export default class CardsBigTable extends Vue {
   @Prop() activePage!: number
@@ -67,12 +63,8 @@ export default class CardsBigTable extends Vue {
   @Emit('update:isModalShowed') changeIsModalShowed(value: boolean) {
     return value
   }
-  @Prop() isEdit!: boolean
-  @Emit('update:isEdit') changeIsEdit(value: boolean) {
-    return value
-  }
-  @Prop() cardForEdit!: ServiceCardType
-  @Emit('update:cardForEdit') changeCardForEdit(card: ServiceCardType) {
+  @Prop() card!: ServiceCardType
+  @Emit('update:card') changeCard(card: ServiceCardType) {
     return card
   }
   @Prop() deleteDialog!: boolean
@@ -97,35 +89,7 @@ export default class CardsBigTable extends Vue {
   padding: 35px 35px 51px 29px;
   display: flex;
   flex-direction: column;
-  width: 1200px;
-
-  @media(max-width: 1600px) {
-    width: 1100px;
-  }
-
-  @media(max-width: 1500px) {
-    width: 1050px;
-  }
-
-  @media(max-width: 1400px) {
-    width: 1000px;
-  }
-
-  @media(max-width: 1300px) {
-    width: 900px;
-  }
-
-  @media(max-width: 1200px) {
-    width: 800px;
-  }
-
-  @media(max-width: 1050px) {
-    width: 750px;
-  }
-
-  @media(max-width: 900px) {
-    width: 650px;
-  }
+  width: 100%;
 
   @media(max-width: 800px) {
     display: none;

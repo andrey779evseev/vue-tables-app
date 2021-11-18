@@ -4,25 +4,16 @@
       <button class="modal-back" @click="goBack">
         <img src="~@assets/icons/arrow-left.svg" alt="back-arrow" class="back-arrow">
       </button>
-      <span class="modal-title" v-if="!$store.getters.isEdit">Добавление сотрудника</span>
-      <span class="modal-title" v-if="$store.getters.isEdit">Редактирование сотрудника</span>
+      <span class="modal-title">{{ employee.id !== 0 ? 'Редактирование сотрудника' : 'Добавление сотрудника' }}</span>
     </div>
     <div class="my-modal-content">
       <div class="modal-input-container modal-initials">
         <span class="modal-input-label">ФИО</span>
-        <input type="text" class="modal-input" v-if="!$store.getters.isEdit" v-model="name"/>
-        <input type="text" class="modal-input" v-if="$store.getters.isEdit" v-model="editProduct.name"/>
+        <input type="text" class="modal-input" v-model="employee.name"/>
       </div>
       <div class="modal-input-container modal-position">
         <span class="modal-input-label">Должность</span>
-        <el-select v-model="selectValue" placeholder="Select" filterable v-if="!$store.getters.isEdit">
-          <el-option v-for="option in selectOptions"
-                     :key="option.value"
-                     :label="option.label"
-                     :value="option.value"
-          ></el-option>
-        </el-select>
-        <el-select v-model="editProduct.position" placeholder="Select" filterable v-if="$store.getters.isEdit">
+        <el-select v-model="employee.position" placeholder="Select" filterable>
           <el-option v-for="option in selectOptions"
                      :key="option.value"
                      :label="option.label"
@@ -32,13 +23,11 @@
       </div>
       <div class="modal-input-container modal-age">
         <span class="modal-input-label">Возраст</span>
-        <input type="number" class="modal-input" v-if="!$store.getters.isEdit" v-model="age"/>
-        <input type="number" class="modal-input" v-if="$store.getters.isEdit" v-model="editProduct.age"/>
+        <input type="number" class="modal-input" v-model="employee.age"/>
       </div>
       <div class="modal-actions">
         <button class="modal-btn modal-cancel" @click="goBack">Отмена</button>
-        <button class="modal-btn modal-my-add" v-if="!$store.getters.isEdit" @click="createEmployee">Добавить</button>
-        <button class="modal-btn modal-my-add" v-if="$store.getters.isEdit" @click="editEmployee">Сохранить</button>
+        <button class="modal-btn modal-my-add" @click="saveEmployee">{{ employee.id !== 0 ? 'Сохранить' : 'Добавить' }}</button>
       </div>
     </div>
   </div>
@@ -52,36 +41,29 @@ import {EmployeeType} from '@/store'
   name: 'edit-or-create-employee'
 })
 export default class EditOrCreateEmployee extends Vue {
-  selectValue: 'admin' | 'guest' = 'admin'
-  name: string = ''
-  age: number | string = ''
   selectOptions = [
     {value: 'admin', label: 'Администратор'},
     {value: 'guest', label: 'Гость'}
   ]
-  editProduct: EmployeeType
+  employee: EmployeeType
   beforeMount() {
-    this.editProduct = this.$store.getters.editProduct
+    this.employee = this.$store.getters.employee
   }
-  editEmployee() {
-    this.$store.commit('updateEmployee', this.editProduct)
-    this.$store.commit('toggleIsEdit')
-    this.goBack()
-  }
-  createEmployee() {
-    this.$store.commit('addEmployee', {
-      id: Math.floor(Math.random() * (10000 - 1) + 1),
-      name: this.name,
-      position: this.selectValue,
-      age: this.age
-    })
-    this.selectValue = 'admin'
-    this.name = ''
-    this.age = 0
-    this.goBack()
-  }
+
   goBack() {
-    this.$router.push({name: 'employees2'})
+    this.$router.push({name: 'employees-without-modal'})
+    this.$store.commit('updateEmployee', {id: 0, name: '', position: 'admin', age: 0})
+  }
+  saveEmployee() {
+    if(this.$store.getters.employee.id !== 0)
+      this.$store.commit('updateEmployees', this.employee)
+    else {
+      this.$store.commit('addEmployee', {
+        ...this.employee,
+        id: Math.floor(Math.random() * (10000 - 1) + 1)
+      })
+    }
+    this.goBack()
   }
 }
 </script>
@@ -90,40 +72,10 @@ export default class EditOrCreateEmployee extends Vue {
 .modal-container {
   display: flex;
   flex-direction: column;
-  width: 671px;
+  width: 99%;
   height: 398px;
   background: white;
   transition: all 0.3s linear;
-
-
-  @media(max-width: 800px) {
-    width: 485px;
-  }
-
-  @media(max-width: 600px) {
-    width: 440px;
-  }
-
-  @media(max-width: 550px) {
-    width: 400px;
-  }
-
-  @media(max-width: 500px) {
-    width: 400px;
-  }
-
-  @media(max-width: 450px) {
-    width: 350px;
-  }
-
-  @media(max-width: 400px) {
-    width: 270px;
-  }
-
-  @media(max-width: 320px) {
-    width: 265px;
-    height: 350px;
-  }
 
   .modal-info {
     width: 100%;

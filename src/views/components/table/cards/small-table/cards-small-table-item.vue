@@ -10,7 +10,7 @@
       <span class="col-name">Образование</span>
       <span class="col-name">Опыт работы</span>
       <span class="col-name">ВУЗ</span>
-      <button class="col-cell-square" style="margin-right: 1px;" @click="changeIsModalShowed(true); changeIsEdit(true);changeCardForEdit({...card})">
+      <button class="col-cell-square" style="margin-right: 1px;" @click="changeIsModalShowed(true);changeCard({...card})">
         <img src="~@assets/icons/edit.svg" alt="edit">
       </button>
     </div>
@@ -43,9 +43,8 @@ import {ServiceCardType} from '@/store'
 export default class CardsSmallTableItem extends Vue {
   @Prop() getSrc!: (key:string) => string
   @Prop() card!: ServiceCardType
-  @Prop() changeCardForEdit!: (card: ServiceCardType) => ServiceCardType
+  @Prop() changeCard!: (card: ServiceCardType) => ServiceCardType
   @Prop() changeIsModalShowed!: (value: boolean) => boolean
-  @Prop() changeIsEdit!: (value: boolean) => boolean
   @Prop() changeDeleteDialog!: (value: boolean) => boolean
   @Prop() changeDeleteIndex!: (index: number) => number
   @Prop() changeDeleteName!: (name: string) => string
@@ -80,6 +79,9 @@ export default class CardsSmallTableItem extends Vue {
       overflow-x: auto;
       white-space: nowrap;
       margin-bottom: 1px;
+      @media(max-width: 800px) {
+        font-size: 12px;
+      }
     }
 
     .col-cell-square {
@@ -125,6 +127,9 @@ export default class CardsSmallTableItem extends Vue {
       overflow-x: auto;
       white-space: nowrap;
       margin-bottom: 1px;
+      @media(max-width: 800px) {
+        font-size: 12px;
+      }
     }
   }
 }

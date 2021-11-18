@@ -47,12 +47,12 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-property-decorator";
-import { EMPLOYEES } from "@/router/routerNames";
+import {EMPLOYEES_WITH_MODAL} from '@/router/routerNames'
 @Options({
   emits: ["goToAdmin"],
 })
 export default class LoginPageComponent extends Vue {
-  Employees = EMPLOYEES;
+  Employees = EMPLOYEES_WITH_MODAL;
   error = "Неверный логин или пароль";
   phone = "";
   password = "";

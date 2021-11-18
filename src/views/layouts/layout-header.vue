@@ -6,7 +6,7 @@
     </div>
     <div class="info">
       <img src="~@assets/icons/avatar.svg" alt="avatar" class="avatar" @click="isMenuShowed = !isMenuShowed">
-      <div class="container-info" :class="{'flex': isMenuShowed}">
+      <div class="container-info">
         <span class="name-info">annaivanova</span>
         <span class="quit" @click="logout">выйти</span>
       </div>
@@ -21,7 +21,6 @@ import {Options, Vue} from 'vue-property-decorator'
   name: 'layout-header',
 })
 export default class LayoutHeaderUser extends Vue {
-  isMenuShowed: boolean = false
   logout() {
     this.$router.push({name: 'login'})
   }
@@ -50,10 +49,6 @@ export default class LayoutHeaderUser extends Vue {
 
   @media(max-width: 600px) {
     height: 40px;
-  }
-
-  @media(max-width: 320px) {
-    height: 30px;
   }
 
   .container-name {
@@ -88,19 +83,9 @@ export default class LayoutHeaderUser extends Vue {
       padding-right: 5px;
     }
 
-    @media(max-width: 320px) {
-      width: 80px;
-      padding-left: 5px;
-      padding-right: 2px;
-      justify-content: center;
-    }
-
     .arrow {
       @media(max-width: 800px) {
         width: 10px;
-      }
-      @media(max-width: 320px) {
-        display: none;
       }
     }
 
@@ -114,10 +99,6 @@ export default class LayoutHeaderUser extends Vue {
 
       @media(max-width: 600px) {
         font-size: 14px;
-      }
-
-      @media(max-width: 320px) {
-        font-size: 11px;
       }
 
       .red {
@@ -140,13 +121,6 @@ export default class LayoutHeaderUser extends Vue {
         width: 20px;
         height: 20px;
       }
-      @media(max-width: 320px) {
-        width: 17px;
-        height: 17px;
-        cursor: pointer;
-        outline: none;
-        -webkit-tap-highlight-color: transparent;
-      }
     }
 
     @media(max-width: 1400px) and (min-width: 1000px) {
@@ -158,9 +132,6 @@ export default class LayoutHeaderUser extends Vue {
     }
 
     @media(max-width: 600px) {
-      margin-right: 5px;
-    }
-    @media(max-width: 320px) {
       margin-right: 5px;
     }
 
@@ -180,20 +151,6 @@ export default class LayoutHeaderUser extends Vue {
 
       @media(max-width: 600px) {
         margin-left: 4px;
-      }
-
-      @media(max-width: 320px) {
-        display: none;
-        margin-left: 0;
-        position: absolute;
-        text-align: right;
-        top: 30px;
-        right: 0;
-        width: 70px;
-        background: rgba(0,0,0,0.5);
-        justify-content: flex-start;
-        padding-right: 5px;
-        padding-bottom: 5px;
       }
 
       .name-info {
@@ -219,9 +176,6 @@ export default class LayoutHeaderUser extends Vue {
         }
         @media(max-width: 600px) {
           font-size: 10px;
-        }
-        @media(max-width: 320px) {
-          margin-top: 5px;
         }
       }
     }
