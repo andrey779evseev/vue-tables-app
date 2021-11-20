@@ -13,11 +13,13 @@ import {
   LOGIN,
   POINTS,
   REFERENCE_SHOP_BOOKS,
-  SERVICE_CARDS
+  SERVICE_CARDS,
+  UI_COMPONENTS
 } from './routerNames'
 import EmployeesWithoutModal from '@views/pages/employees/employees-without-modal.vue'
 import EditOrCreateEmployee from '@views/pages/employees/edit-or-create-employee.vue'
 import ServiceCards from '@views/pages/service-cards/service-cards.vue'
+import UiComponents from '@views/pages/ui-components/ui-components.vue'
 //#region Admin
 const Layout = () => import('@/views/layouts/layout.vue')
 
@@ -80,6 +82,11 @@ const routes: Array<RouteRecordRaw> = [
         path: 'service-cards',
         name: SERVICE_CARDS,
         component: ServiceCards,
+      },
+      {
+        path: 'ui-components',
+        name: UI_COMPONENTS,
+        component: UiComponents,
       }
     ],
   },

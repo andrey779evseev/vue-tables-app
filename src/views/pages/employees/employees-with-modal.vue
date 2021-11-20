@@ -2,7 +2,7 @@
   <div class="container">
     <div class="info">
       <span class="title">Сотрудники</span>
-      <button class="btn" @click="this.isModalShowed = true;">Добавить сотрудника</button>
+      <button class="btn" @click="isModalShowed = true;">Добавить сотрудника</button>
     </div>
     <employees-big-table
         v-model:active-page="activePage"
@@ -32,7 +32,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button type="success" @click="deleteDialog = false">Отмена</el-button>
-        <el-button type="danger" @click="()=>{deleteDialog = false; this.$store.commit('deleteEmployee', deleteIndex)}"
+        <el-button type="danger" @click="()=>{deleteDialog = false; $store.commit('deleteEmployee', deleteIndex)}"
         >Подвердить</el-button
         >
       </span>

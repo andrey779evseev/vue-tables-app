@@ -24,7 +24,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button type="success" @click="deleteDialog = false">Отмена</el-button>
-        <el-button type="danger" @click="()=>{deleteDialog = false; this.$store.commit('deleteEmployee', deleteIndex)}"
+        <el-button type="danger" @click="()=>{deleteDialog = false; $store.commit('deleteEmployee', deleteIndex)}"
         >Подвердить</el-button
         >
       </span>

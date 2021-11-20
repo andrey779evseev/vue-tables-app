@@ -3,12 +3,10 @@
 </template>
 
 <script lang="ts">
-import {Vue} from 'vue-class-component'
-
+import { Vue } from 'vue-class-component'
 
 export default class AppComponent extends Vue {
-  created() {
-  }
+  created() {}
 }
 </script>
 
@@ -19,7 +17,7 @@ export default class AppComponent extends Vue {
   box-sizing: border-box;
 }
 .el-select .el-input__inner {
-  border: 1px solid #CED4DE !important;
+  border: 1px solid #ced4de !important;
   padding: 9px 0 9px 15px !important;
   color: #162147 !important;
   background: white !important;
@@ -30,14 +28,14 @@ export default class AppComponent extends Vue {
   border-radius: 0;
 }
 .el-select .el-input__inner:focus {
-  border: 1px solid #4F5C9C !important;
+  border: 1px solid #4f5c9c !important;
   color: #070054 !important;
 }
 .el-select-dropdown__item.selected {
   color: #070054 !important;
 }
 .el-date-editor .el-input__inner {
-  border: 1px solid #CED4DE;
+  border: 1px solid #ced4de;
   color: #162147;
   background: white;
   height: 35px;
@@ -47,13 +45,16 @@ export default class AppComponent extends Vue {
   border-radius: 0;
 }
 .el-date-editor .el-input__inner:focus {
-  border: 1px solid #4F5C9C !important;
+  border: 1px solid #4f5c9c !important;
   color: #070054 !important;
 }
-.el-date-editor.el-input, .el-date-editor.el-input__inner {
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
   width: 100% !important;
 }
 button {
   cursor: pointer;
+  border: 0;
+  outline: none;
 }
 </style>

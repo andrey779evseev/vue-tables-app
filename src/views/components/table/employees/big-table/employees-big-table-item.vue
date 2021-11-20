@@ -11,7 +11,7 @@
     <button v-if="employeePage === 1" class="col-cell-square" style="margin-right: 1px;" @click="() => {changeEmployee({...employee}); changeIsModalShowed(true);}">
       <img src="~@assets/icons/edit.svg" alt="edit">
     </button>
-    <button v-if="employeePage === 2" class="col-cell-square" style="margin-right: 1px;" @click="()=>{this.$store.commit('updateEmployee', employee);$router.push({name: 'edit-or-create-employee'})}">
+    <button v-if="employeePage === 2" class="col-cell-square" style="margin-right: 1px;" @click="()=>{$store.commit('updateEmployee', employee);$router.push({name: 'edit-or-create-employee'})}">
       <img src="~@assets/icons/edit.svg" alt="edit">
     </button>
     <button class="col-cell-square"

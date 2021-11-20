@@ -16,6 +16,9 @@
       <router-link class="menu-item" :to="{ name: ServiceCards }">
         <el-icon class="icon"><postcard /></el-icon><span class="name">Служебные карточки</span>
       </router-link>
+      <router-link class="menu-item" :to="{ name: UiComponents }">
+        <el-icon class="icon"><set-up /></el-icon><span class="name">UI компоненты</span>
+      </router-link>
     </nav>
   </div>
 </template>
@@ -23,14 +26,15 @@
 import {Options, Vue} from 'vue-property-decorator'
 import {
   EMPLOYEES_WITH_MODAL, EMPLOYEES_WITHOUT_MODAL,
-  POINTS, REFERENCE_SHOP_BOOKS, SERVICE_CARDS
+  POINTS, REFERENCE_SHOP_BOOKS, SERVICE_CARDS, UI_COMPONENTS
 } from '@/router/routerNames'
-import {Postcard} from '@element-plus/icons'
+import {Postcard, SetUp} from '@element-plus/icons'
 
 @Options({
   name: 'layout-sidebar',
   components: {
-    Postcard
+    Postcard,
+    SetUp
   }
 })
 export default class LayoutSidebar extends Vue {
@@ -39,6 +43,7 @@ export default class LayoutSidebar extends Vue {
   EmployeesWithoutModal = EMPLOYEES_WITHOUT_MODAL
   ReferenceShopBooks = REFERENCE_SHOP_BOOKS
   ServiceCards = SERVICE_CARDS
+  UiComponents = UI_COMPONENTS
 }
 </script>
 

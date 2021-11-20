@@ -52,7 +52,7 @@
           <span class="modal-label">Фото</span>
           <input v-if="!(photo && card.id === 0 || card.id !== 0 && getSrc(card.photo))" class="modal-input" type="file"
                  placeholder="Загрузите фото" :value="photoInput"
-                 v-on:change="(e) => {photoInput = e.target.value; saveImage(e.target.files[0])}">
+                 v-on:change="(e: any) => {photoInput = e.target.value; saveImage(e.target.files[0])}">
           <div v-if="photo && card.id === 0 || card.id !== 0 && getSrc(card.photo)" class="photo-container">
             <img :src="card.id !== 0 ? getSrc(card.photo) : photo" alt="" height="50" width="50"
                  @click="dialogVisible = true; dialogImageUrl = getSrc(card.photo)">

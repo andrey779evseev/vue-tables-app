@@ -23,7 +23,7 @@
         <img src="~@assets/icons/edit.svg" alt="edit">
       </button>
       <button class="small-table-edit-btn" v-if="employeePage === 2"
-              @click="()=>{this.$store.commit('updateEmployee', employee); $router.push({name: 'edit-or-create-employee'})}">
+              @click="()=>{$store.commit('updateEmployee', employee); $router.push({name: 'edit-or-create-employee'})}">
         <img src="~@assets/icons/edit.svg" alt="edit">
       </button>
       <button class="small-table-delete-btn" @click="deleteEmployee(index)">
